@@ -47,12 +47,12 @@ func CreateUser(c *gin.Context) {
 		})
 		return
 	}
-
-	if user.Name == "" {
+	
+	if !ValidateName(user.Name) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "nome é obrigatório",
 		})
-		return
+	return
 	}
 
 	_, err := database.DB.Exec(
@@ -94,4 +94,12 @@ func DeleteUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Usuário excluído com sucesso",
 	})
+}
+
+func ValidateName(name string) bool {
+	if name == "" {
+		
+		return false
+	}
+	return true
 }
