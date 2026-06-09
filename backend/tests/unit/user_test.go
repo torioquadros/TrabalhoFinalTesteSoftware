@@ -1,14 +1,12 @@
 package unit
 
 import (
-
-	"backend/handlers"
 	"testing"
-
+	"backend/handlers"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestValidateName_Empty(t *testing.T) {
-	if handlers.ValidateName("") {
-		t.Error("nome vazio deveria ser inválido")
-	}
+	assert.False(t, handlers.ValidateName(""))
+	assert.True(t, handlers.ValidateName("vitorio"))
 }
