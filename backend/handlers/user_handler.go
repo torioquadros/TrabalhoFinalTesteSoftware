@@ -73,11 +73,15 @@ func CreateUser(c *gin.Context) {
 	})
 }
 
-
-
 func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 
+	if !ValidateID(id) {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Usuário não encontrado",
+		})
+		return
+	}
 	_, err := database.DB.Exec(
 		context.Background(),
 		"DELETE FROM users WHERE id = $1",
@@ -99,6 +103,19 @@ func DeleteUser(c *gin.Context) {
 func ValidateName(name string) bool {
 	if name == "" {
 		
+		return false
+	}
+	return true
+}
+
+func ValidateID(id string) bool {
+	var existe int
+	err := database.DB.QueryRow(
+		context.Background(),
+		"SELECT 1 FROM users WHERE id = $1",
+		id,
+	).Scan(&existe)
+	if err != nil {
 		return false
 	}
 	return true
