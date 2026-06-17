@@ -8,7 +8,15 @@ Teste integração
 C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\backend\tests\integration
 go test -v 
 
-Teste integração
+Teste unitario
 
 C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\backend\tests\unit
 go test -v 
+
+cd C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\frontend
+
+npm run dev
+
+cd backend
+
+go run .
