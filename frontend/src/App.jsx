@@ -10,37 +10,58 @@ function App() {
   async function getUsers() {
     try {
       const response = await fetch("http://localhost:8080/users");
+
+      if (!response.ok) {
+        throw new Error("Erro ao buscar usuários");
+      }
+
       const data = await response.json();
 
       setUsers(data);
       setScreen("list");
     } catch (error) {
-      console.error(error);
+      alert(error.message);
     }
   }
 
   async function createUser() {
-    try {
-      const response = await fetch("http://localhost:8080/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-        }),
-      });
+    if (name.trim() === "") {
+      alert("Digite um nome");
+      return;
+    }
 
-      if (response.ok) {
-        alert("Usuário criado com sucesso!");
-        setName("");
+    try {
+      const response = await fetch(
+        "http://localhost:8080/users",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Erro ao criar usuário");
       }
+
+      alert("Usuário criado com sucesso!");
+
+      setName("");
     } catch (error) {
-      console.error(error);
+      alert(error.message);
     }
   }
 
   async function deleteUser() {
+    if (deleteId.trim() === "") {
+      alert("Digite um ID");
+      return;
+    }
+
     try {
       const response = await fetch(
         `http://localhost:8080/users/${deleteId}`,
@@ -49,41 +70,47 @@ function App() {
         }
       );
 
-      if (response.ok) {
-        alert("Usuário removido com sucesso!");
-        setDeleteId("");
+      if (!response.ok) {
+        throw new Error("Erro ao deletar usuário");
       }
+
+      alert("Usuário removido com sucesso!");
+
+      setDeleteId("");
     } catch (error) {
-      console.error(error);
+      alert(error.message);
     }
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h1>Sistema de Usuários</h1>
 
-      <button onClick={() => setScreen("create")}>
-        Criar
-      </button>
+      <div className="menu">
+        <button
+          className="create-btn"
+          onClick={() => setScreen("create")}
+        >
+          Criar
+        </button>
 
-      <button
-        onClick={getUsers}
-        style={{ marginLeft: "10px" }}
-      >
-        Listar
-      </button>
+        <button
+          className="list-btn"
+          onClick={getUsers}
+        >
+          Listar
+        </button>
 
-      <button
-        onClick={() => setScreen("delete")}
-        style={{ marginLeft: "10px" }}
-      >
-        Deletar
-      </button>
-
-      <hr />
+        <button
+          className="delete-btn"
+          onClick={() => setScreen("delete")}
+        >
+          Deletar
+        </button>
+      </div>
 
       {screen === "create" && (
-        <div>
+        <div className="card">
           <h2>Criar Usuário</h2>
 
           <input
@@ -94,8 +121,8 @@ function App() {
           />
 
           <button
+            className="create-btn"
             onClick={createUser}
-            style={{ marginLeft: "10px" }}
           >
             Salvar
           </button>
@@ -103,7 +130,7 @@ function App() {
       )}
 
       {screen === "delete" && (
-        <div>
+        <div className="card">
           <h2>Deletar Usuário</h2>
 
           <input
@@ -114,8 +141,8 @@ function App() {
           />
 
           <button
+            className="delete-btn"
             onClick={deleteUser}
-            style={{ marginLeft: "10px" }}
           >
             Excluir
           </button>
@@ -123,15 +150,20 @@ function App() {
       )}
 
       {screen === "list" && (
-        <div>
-          <h2>Usuários</h2>
+        <div className="card">
+          <h2>Usuários Cadastrados</h2>
 
           {users.length === 0 ? (
             <p>Nenhum usuário encontrado.</p>
           ) : (
             users.map((user) => (
-              <div key={user.id}>
-                {user.id} - {user.name}
+              <div
+                className="user"
+                key={user.id}
+              >
+                <strong>ID:</strong> {user.id}
+                <br />
+                <strong>Nome:</strong> {user.name}
               </div>
             ))
           )}

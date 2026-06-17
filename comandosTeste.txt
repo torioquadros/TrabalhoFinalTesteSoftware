@@ -1,0 +1,14 @@
+Teste interface
+
+cd C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\frontend 
+npm.cmd test
+
+Teste integração
+
+C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\backend\tests\integration
+go test -v 
+
+Teste integração
+
+C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\backend\tests\unit
+go test -v 

@@ -5,6 +5,7 @@ import (
 	"backend/database"
 	"backend/models"
 	"net/http"
+    "strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -101,11 +102,7 @@ func DeleteUser(c *gin.Context) {
 }
 
 func ValidateName(name string) bool {
-	if name == "" {
-		
-		return false
-	}
-	return true
+	return strings.TrimSpace(name) != ""
 }
 
 func ValidateID(id string) bool {
