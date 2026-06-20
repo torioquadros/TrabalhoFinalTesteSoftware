@@ -15,7 +15,7 @@ go test -v
 
 cd C:\Users\torio\OneDrive\Desktop\Projetos\trabFinalTestes\frontend
 
-npm run dev
+npm.cmd run dev
 
 cd backend
 

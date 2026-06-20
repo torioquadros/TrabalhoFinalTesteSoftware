@@ -153,7 +153,7 @@ function App() {
         <div className="card">
           <h2>Usuários Cadastrados</h2>
 
-          {users.length === 0 ? (
+          {users === null ? (
             <p>Nenhum usuário encontrado.</p>
           ) : (
             users.map((user) => (
